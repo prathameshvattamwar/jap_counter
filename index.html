@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shri Swami Samarth Jap Counter</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Tiro+Devanagari+Marathi:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #FF9933; /* Saffron */
+            --secondary-color: #FFFFFF;
+            --dark-color: #333333;
+            --light-gray: #f4f4f4;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFDDA1, #FFC371);
+            margin: 0;
+            user-select: none;
+        }
+
+        .container {
+            text-align: center;
+            background-color: var(--secondary-color);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .title {
+            font-family: 'Tiro Devanagari Marathi', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--dark-color);
+            margin-bottom: 30px;
+        }
+
+        .counter-display {
+            font-size: 6rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 30px;
+            letter-spacing: 5px;
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: inset 0 4px 8px var(--shadow-color);
+        }
+
+        .main-button {
+            background: linear-gradient(145deg, #FFC371, var(--primary-color));
+            color: var(--secondary-color);
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            margin-bottom: 20px;
+        }
+
+        .main-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+        
+        .main-button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .control-button {
+            background-color: var(--light-gray);
+            color: var(--dark-color);
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .footer-text {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">श्री स्वामी समर्थ</h1>
+        <p class="subtitle">Naam Jap Counter</p>
+        
+        <div id="counter" class="counter-display">0</div>
+        
+        <button id="japButton" class="main-button">Jap</button>
+        
+        <div class="controls">
+            <button id="resetButton" class="control-button">Reset</button>
+            <button id="saveButton" class="control-button">Save</button>
+        </div>
+        
+        <p class="footer-text">Click 'Jap' to count your mantra.</p>
+    </div>
+
+    <script>
+        const counterDisplay = document.getElementById('counter');
+        const japButton = document.getElementById('japButton');
+        const resetButton = document.getElementById('resetButton');
+        const saveButton = document.getElementById('saveButton');
+
+        let count = 0;
+        const MAX_COUNT = 99999;
+
+        // Load the saved count from localStorage
+        const savedCount = localStorage.getItem('japCount');
+        if (savedCount !== null) {
+            count = parseInt(savedCount, 10);
+        }
+        
+        // Function to update the display
+        function updateDisplay() {
+            counterDisplay.textContent = count;
+        }
+
+        // Initialize display
+        updateDisplay();
+
+        // Event listener for the main Jap button
+        japButton.addEventListener('click', () => {
+            if (count < MAX_COUNT) {
+                count++;
+                updateDisplay();
+            } else {
+                alert("You have reached the maximum count of 99999!");
+            }
+        });
+
+        // Event listener for the reset button
+        resetButton.addEventListener('click', () => {
+            if (confirm("Are you sure you want to reset the count?")) {
+                count = 0;
+                updateDisplay();
+                localStorage.removeItem('japCount');
+            }
+        });
+
+        // Event listener for the save button
+        saveButton.addEventListener('click', () => {
+            localStorage.setItem('japCount', count);
+            alert(`Count of ${count} has been saved!`);
+        });
+
+    </script>
+
+</body>
+</html>
