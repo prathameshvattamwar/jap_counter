@@ -51,6 +51,7 @@
         }
 
         .counter-display {
+            font-family: 'Tiro Devanagari Marathi', serif; /* Font for Marathi digits */
             font-size: 6rem;
             font-weight: 600;
             color: var(--dark-color);
@@ -121,7 +122,7 @@
         <h1 class="title">श्री स्वामी समर्थ</h1>
         <p class="subtitle">Naam Jap Counter</p>
         
-        <div id="counter" class="counter-display">0</div>
+        <div id="counter" class="counter-display">०</div>
         
         <button id="japButton" class="main-button">Jap</button>
         
@@ -141,6 +142,12 @@
 
         let count = 0;
         const MAX_COUNT = 99999;
+        const marathiDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+
+        // Function to convert a number to a string with Marathi digits
+        function toMarathiDigits(number) {
+            return number.toString().split('').map(digit => marathiDigits[parseInt(digit)]).join('');
+        }
 
         // Load the saved count from localStorage
         const savedCount = localStorage.getItem('japCount');
@@ -150,7 +157,7 @@
         
         // Function to update the display
         function updateDisplay() {
-            counterDisplay.textContent = count;
+            counterDisplay.textContent = toMarathiDigits(count);
         }
 
         // Initialize display
@@ -162,7 +169,7 @@
                 count++;
                 updateDisplay();
             } else {
-                alert("You have reached the maximum count of 99999!");
+                alert("You have reached the maximum count of ९९९९९!");
             }
         });
 
@@ -178,7 +185,7 @@
         // Event listener for the save button
         saveButton.addEventListener('click', () => {
             localStorage.setItem('japCount', count);
-            alert(`Count of ${count} has been saved!`);
+            alert(`Count of ${toMarathiDigits(count)} has been saved!`);
         });
 
     </script>
