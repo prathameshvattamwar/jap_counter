@@ -131,7 +131,7 @@
             <button id="saveButton" class="control-button">Save</button>
         </div>
         
-        <p class="footer-text">Click 'Jap' to count your mantra.</p>
+        <p class="footer-text">The counter will automatically reset after 108.</p>
     </div>
 
     <script>
@@ -141,7 +141,7 @@
         const saveButton = document.getElementById('saveButton');
 
         let count = 0;
-        const MAX_COUNT = 99999;
+        const MAX_COUNT = 108; // Set the maximum count to 108
         const marathiDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
 
         // Function to convert a number to a string with Marathi digits
@@ -152,7 +152,11 @@
         // Load the saved count from localStorage
         const savedCount = localStorage.getItem('japCount');
         if (savedCount !== null) {
-            count = parseInt(savedCount, 10);
+            // Ensure saved count doesn't exceed the max count
+            const parsedCount = parseInt(savedCount, 10);
+            if(parsedCount <= MAX_COUNT) {
+               count = parsedCount;
+            }
         }
         
         // Function to update the display
@@ -165,15 +169,18 @@
 
         // Event listener for the main Jap button
         japButton.addEventListener('click', () => {
-            if (count < MAX_COUNT) {
-                count++;
-                updateDisplay();
+            // If the current count is 108 or more, reset to 0 on click.
+            if (count >= MAX_COUNT) {
+                count = 0;
             } else {
-                alert("You have reached the maximum count of ९९९९९!");
+                // Otherwise, increment the count by 1.
+                count++;
             }
+            // Update the display with the new count.
+            updateDisplay();
         });
 
-        // Event listener for the reset button
+        // Event listener for the manual reset button
         resetButton.addEventListener('click', () => {
             if (confirm("Are you sure you want to reset the count?")) {
                 count = 0;
